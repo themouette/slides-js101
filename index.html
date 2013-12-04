@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>js101 - An introduction to javascript</title>
+
+        <meta name="description" content="An introduction to javascript">
+        <meta name="author" content="Julmien Muetton (@themouette)">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <link rel="stylesheet" href="reveal.js/css/reveal.min.css">
+        <link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="reveal.js/lib/js/html5shiv.js"></script>
+        <![endif]-->
+        <style type="text/css" media="screen">
+            p.big {
+                font-size: 1.4em;
+            }
+            .two-columns pre {
+                width: 48%;
+                display: inline-block;
+                vertical-align: middle;
+            }
+            .two-columns pre:nth-child(2n+1) {
+                margin-right: 2%;
+            }
+
+            pre.green {
+                box-shadow: 0 0 10px rgba(0,250,0,.6);
+                border-left: 5px solid green;
+            }
+            pre.red {
+                box-shadow: 0 0 10px rgba(250,0,0,.6);
+                border-left: 5px solid red;
+            }
+            .runable-run {
+                position: absolute;
+                right: 2px;
+                top: 2px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section class="cover"
+                    data-background-position="center">
+                    <h1>JavaScript 101</h1>
+                    <img src="img/cover.jpg" style="height: 250px;margin:20px auto;" />
+                    <p>
+                    <small>
+                        By <a href="http://muetton.me">Julien Muetton</a> /
+                        <a href="https://twitter.com/themouette">@themouette</a>
+                    </small>
+                    </p>
+                    <p style="margin-top:0px;">
+                        <small  style="float:left;">OpenStudio</small>
+                        <small style="float:right;">2013 December, 5th</small>
+                    </p>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # Environments
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Server
+
+                            * [Nodejs](http://nodejs.org/)
+                            * [Rhino](https://developer.mozilla.org/en/docs/Rhino)
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Shipping applications
+
+                            * [node-webkit](https://github.com/rogerwang/node-webkit) for the desktop
+                            * [titanium](http://www.appcelerator.com/titanium/) or [phonegap](http://phonegap.com/) for mobiles
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Web browser
+
+                            * Websites
+                            * Extensions
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## What follows is mostly about HTML
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # HTML
+                        </script>
+                    </section>
+                    <section>
+                        <h2>HTML inclusion</h2>
+                        <ul>
+                            <li>Always include scripts at the bottom as it stops page execution</li>
+                            <li>CSS in the header to avoid multiple rendering</li>
+                            <li>Limit the number of API requests as network is slow</li>
+                            <li>Concat and compress your assets for all previous reasons</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Document Object Modeler</h2>
+                        <p><img src="img/DOM.png" /></p>
+                    </section>
+                    <section>
+                        <h2>Document fragments</h2>
+
+                        <p>When altering a node, DOM is rendered again.</p>
+
+                        <p>To avoid performances issues, you need to work on a detached piece of DOM.</p>
+
+                        <p>A Fragment is an empty DOM node.</p>
+
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # Coding standards
+                        </script>
+                    </section>
+                    <section>
+                        <h2>CS: Braces</h2>
+
+                        <p><a href="http://inimino.org/~inimino/blog/javascript_semicolons">automatic semicolon insertion</a> force to put braces at the EOL</p>
+
+                        <pre class="red"><code class="javascript">// BAD
+return
+{
+    foo: "foo"
+};</code></pre>
+
+                        <p class="vs">vs</p>
+
+                        <pre class="green"><code class="javascript">// GOOD
+return {
+    foo: "foo"
+}; </code></pre>
+                    </section>
+                    <section>
+                        <h2>CS: Strings</h2>
+
+                        <p>Use `Array.join()` to declare multiline strings</p>
+
+                        <pre class="red"><code class="javascript">// BAD
+var foo = 'Lorem ipsum dolor sit amet, consetetur '
+        + 'sadipscing elitr, sed diam nonumy ';</code></pre>
+
+                        <p class="vs">vs</p>
+
+                        <pre class="green"><code class="javascript">// GOOD
+var foo = [
+    'Lorem ipsum dolor sit amet, consetetur ',
+    'sadipscing elitr, sed diam nonumy '
+    ].join(''); </code></pre>
+                    </section>
+                    <section>
+                        <h2>CS: name your functions</h2>
+
+                        <p>Lambda functions are shown as (anonymous) in debugger.</p>
+
+                        <pre class="red"><code class="javascript">// BAD
+var foo = function() {
+    /* ... */
+};</code></pre>
+
+                        <p class="vs">vs</p>
+
+                        <pre class="green"><code class="javascript">// GOOD
+var foo = function foo() {
+    /* ... */
+};</code></pre>
+                    </section>
+                    <section>
+                        <h2>CS: use JSON</h2>
+
+                        <p>Variable initialization should remain readable</p>
+
+                        <pre class="red"><code class="javascript">// BAD
+var foo = new Object();
+foo.name = 'John';
+foo.age = 32;</code></pre>
+
+                        <p class="vs">vs</p>
+
+                        <pre class="green"><code class="javascript">// GOOD
+var foo = {
+    name: 'john',
+    age: 32
+};</code></pre>
+                    </section>
+                    <section>
+                        <h2>CS: Semicolons</h2>
+
+                        <p>Semicolons `;` are optional as <strong>ASI</strong> insert them for us.</p>
+
+                        <div class="two-columns">
+<pre><code class="javascript">a = b + c
+foo()</code></pre>
+<pre class="fragment green"><code class="javascript">// All right
+a = b + c ; foo()</code></pre>
+                        </div>
+
+                        <div class="two-columns">
+<pre><code class="javascript">a = b + c
+[1].push(a)</code></pre>
+<pre class="fragment red"><code class="javascript">// Not what expected
+a = b + c[1].push(a)
+</code></pre>
+                        </div>
+
+                        <div class="two-columns">
+<pre><code class="javascript">a = b + c
+(opts || {}).foo ? bar() : baz()</code></pre>
+<pre class="fragment red"><code class="javascript">// Not what expected
+a = b + c(opts || {}).foo ? bar() : baz()</code></pre>
+                        </div>
+
+                        <div class="fragment">
+                            <blockquote style="margin-top:50px;">
+                                <p>Either you learn ASI rules or you write semicolons</p>
+                            </blockquote>
+                            <p>To go further on ASI: <a href="http://dailyjs.com/2012/04/19/semicolons/">DailyJS on ASI</a></p>
+                        </div>
+
+                    </section>
+                    <section>
+                        <p class="big">
+                            <strong>More advices in the <a href="https://github.com/airbnb/javascript">Airbnb JavaScript Style Guide</a></strong>
+                        </p>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # Variables and contexts
+                        </script>
+                    </section>
+                    <section>
+                        <h2>Contexts</h2>
+
+                        <pre><code class="javascript">var foo = "outside";
+function test() {
+    var foo = "inside";
+    console.log('test foo is "%s"', foo);
+}
+
+test();
+console.log('outside foo is "%s"', foo);</code></pre>
+
+                        <p>Will output</p>
+
+<pre class="fragment"><code class="javascript">test foo is "inside"
+outside foo is "outside"</code></pre>
+
+                        <blockquote class="fragment">
+                            <p>Each function defines its own context and can access definition context.</p>
+                        </blockquote>
+                    </section>
+
+                    <section>
+                        <h2>Local vs Global</h2>
+
+                        <p>Any variable not declared with <code>var</code> is <strong>global</strong>.</p>
+
+                        <pre><code class="javascript">var foo = "outside";
+function test() {
+    foo = "inside";
+    console.log('test foo is "%s"', foo);
+}
+
+test();
+console.log('outside foo is "%s"', foo);</code></pre>
+
+                        <p>Will output</p>
+
+<pre class="fragment"><code class="javascript">test foo is "inside"
+outside foo is "inside"</code></pre>
+                    </section>
+
+                    <section>
+                        <h2>Hoisting: variables</h2>
+
+                        <div class="two-columns">
+<pre><code class="javascript runable">var foo = 1;
+function bar() {
+    if (!foo) {
+        var foo = 10;
+    }
+    alert(foo);
+}
+bar();
+</code></pre>
+<pre class="fragment"><code class="javascript">// Is compiled into
+var foo = 1;
+function bar() {
+    var foo;
+    if (!foo) {
+        foo = 10;
+    }
+    alert(foo);
+}
+bar();</code></pre>
+
+                        </div>
+
+                        <div class="fragment">
+                            <blockquote style="margin-top:50px;">
+                                <p>Variable declarations are hoisted to the top of context by compiler</p>
+                            </blockquote>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h2>Hoisting: functions</h2>
+
+                        <div class="two-columns">
+<pre><code class="javascript runable">var a = 1;
+function b() {
+    a = 10;
+    return;
+    function a() {};
+}
+
+b();
+alert(a);
+</code></pre>
+<pre class="fragment"><code class="javascript">// Is compiled into
+var a = 1;
+function b() {
+    // declare a symbol locally
+    function a() {};
+    a = 10;
+    return;
+}
+
+b();
+alert(a);</code></pre>
+                        </div>
+
+                        <div class="fragment">
+                            <blockquote style="margin-top:50px;">
+                                <p>Function declarations are hoisted too.</p>
+                            </blockquote>
+                            <p style="margin-top:50px;">To go further on hoisting: <a href="http://www.adequatelygood.com/JavaScript-Scoping-and-Hoisting.html">adequatelygood</a></p>
+                        </div>
+
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # Closures
+                        </script>
+                    </section>
+                    <section>
+                        <h2>Definition</h2>
+
+                        <p class="big">A <strong>closure</strong> is a <em>function</em> alongside a <em>referencing environment</em>.</p>
+
+                        <p style="margin-top: 50px;text-align: left;">To be short, you can reference variables that belongs to the context where function was <strong>defined</strong>.</p>
+
+                        <p>In the meantime, a function creates its <em>own context</em>.</p>
+                    </section>
+                    <section>
+                        <h2>Example 1: public API</h2>
+
+                        <pre><code class="javascript">var x = 0;
+function incr() {
+    x++;
+    console.log(x);
+}
+function decr() {
+    x--;
+    console.log(x);
+}
+
+console.log(x); // log 0
+incr();         // log 1
+incr();         // log 2
+decr();         // log 1</code></pre>
+                    </section>
+                    <section>
+                        <h2>Example 2</h2>
+
+                        <p>Create a callback from a variable:</p>
+
+                        <pre><code class="javascript">function createAdd(number) {
+    function doAdd(value) {
+        return value + number;
+    }
+
+    return doAdd;
+}
+
+var add10 = createAdd(10);
+add10(1); // returns 11</code></pre>
+                    </section>
+                    <section>
+                        <h2>Example 3</h2>
+
+                        <p>Closure creates it's own context:</p>
+
+                        <pre><code class="javascript">var x = 5;
+
+function foo() {
+    var x = 12;
+    function myFun() {
+        // do something
+    }
+    return myFun;
+}
+
+console.log(foo());     // log function myFun() {...}
+console.log(x);         // log 5
+console.log(myFun);     // reference error</code></pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Invocation pattern</h1>
+                        <h3>aka <code>this</code> keyword</h3>
+                    </section>
+                    <section>
+                        <h2>When calling a method on an object</h2>
+
+                        <pre><code class="javascript runable">var john = {
+    name: "John"
+};
+
+john.sayHello = function () {
+    alert("Hello " + this.name);
+};
+
+john.sayHello();</code></pre>
+
+                        <p><code>this</code> is the object.</p>
+
+                    </section>
+                    <section>
+                        <h2>When Calling A Function</h2>
+
+                        <pre><code class="javascript runable">var name = "Garry";
+
+function sayHello() {
+    alert("Hello " + this.name);
+}
+
+sayHello();</code></pre>
+
+                        <p><code>this</code> is the current context:</p>
+
+                    </section>
+                    <section>
+                        <h2>Common Gotcha</h2>
+
+                        <pre><code class="javascript runable">var name = "Garry";
+var joe = {
+    name: "Joe"
+};
+
+joe.sayHello = function sayHello() {
+    alert("Hello " + this.name);
+}
+
+var fct = joe.sayHello;
+
+fct();</code></pre>
+
+                    </section>
+                    <section>
+                        <h2>Force execution context</h2>
+
+                        <pre><code class="javascript runable">var joe = {
+    name: "Joe"
+};
+function sayHello(greeting, to) {
+    greeting || (greeting = 'Hello');
+    to || (to = 'annonymous');
+
+    alert([greeting, to, 'I\'m', this.name].join(' '));
+}
+
+sayHello.call(joe, 'Good morning', 'Garry');
+sayHello.apply(joe, ['Good morning', 'Garry']);</code></pre>
+
+                        <p>will both result into</p>
+
+                        <blockquote><p>Good morning Garry, I'm Joe.</p></blockquote>
+                    </section>
+                    <section>
+                        <h2>Context binding</h2>
+
+                        <pre><code class="javascript">function bind(context, method) {
+
+    return function () {
+        method.apply(context, arguments);
+    }
+}</code></pre>
+
+                        <div style="margin-top: 50px;">
+                            <p>This way, you can make sure the context is what you expect.</p>
+
+                            <p>In <strong>jQuery</strong> it is called <code>$.proxy</code>.</p>
+                        </div>
+                    </section>
+                    <section>
+                        <p>
+                        Read more on partial application on
+                        <a href="http://benalman.com/news/2012/09/partial-application-in-javascript/">Cowboy's blog</a>
+                        and
+                        <a href="http://doctrina.org/Javascript-Function-Invocation-Patterns.html">Invocation patterns in depth</a>
+                        </p>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Object</h1>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Constructor
+
+                            <p class="separation">A constructor is a simple function</p>
+
+                            ``` javascript
+                            var User = function User(properties) {
+                                // init properties if falsy
+                                properties || (properties = {});
+
+                                this.firstname = properties['firstname'];
+                                this.lastname  = properties['lastname'];
+                            };
+                            ```
+
+                            <p class="separation">Instantiation is as expected:</p>
+
+                            ``` javascript
+                            var john = new User({
+                                firstname: "John",
+                                lastname: "Doe"
+                            });
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Adding functions
+
+                            ``` javascript
+                            User.prototype.sayHello = function sayHello() {
+                                alert("Hello, I'm " + this.firstname);
+                            };
+                            ```
+
+                            To be more efficient, use `extend` function:
+
+                            ``` javascript
+                            $.extend(User.prototype, {
+                                sayHello: function sayHello() {
+                                    alert("Hello, I'm " + this.firstname);
+                                },
+                                goodBye: function goodBye() {
+                                    alert("Bye !");
+                                }
+                            });
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Prototype is great
+
+                            * Multiple inheritance;
+                            * Add a method to all instances;
+                            * Pattern strategy.
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Prototype cons
+
+                            * No visibility;
+                            * Not natural at first glance;
+                            * You can mess up existing code.
+
+                            > Never override native objects prototypes.
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # Promises / deferred
+                        </script>
+                    </section>
+                    <section data-markdown class="promises">
+                        <script type="text/template">
+                            ## Promise?
+
+                            * [Promises](http://wiki.commonjs.org/wiki/Promises) are CommonJS spec (/A, /B, /C, /D) ;
+                            * Functional approach for asynchronous ;
+                            * A single API for every asynchronous processes ;
+                            * Avoid pyramid of doom.
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Quick jQuery example
+
+                            jQuery is none of CommonJS Promize compliant but is consistent.
+
+                            ``` javascript
+                            $.ajax( "/example" )
+
+                                // when request is successful
+                                .done(function(response) { alert("success"); })
+
+                                // Error happened
+                                .fail(function(xhr, statusText, error) {
+                                    alert("error"); })
+
+                                // executed in both cases
+                                .always(function() { alert("complete"); });
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Combine
+
+                            Note there is a single callback to handle all returned data.
+
+                            ``` javascript
+                            $.when(
+                                $.ajax("/example"),
+                                $.ajax("/sample")
+                            )
+
+                                // called when both succeed
+                                .done(function (example, sample) {
+                                    alert ('both returned');
+                                })
+
+                                // called when any request fails
+                                .fail(function () { /* ... */ });
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Pipe
+
+                            ``` javascript
+                            $.ajax( "/example" )
+                                .fail(function () {
+                                    alert('example failed') })
+                                .pipe(
+                                    function success(example) {
+                                        return $.ajax('/sample');
+                                    },
+                                    function error() {
+                                        alert('example failed !')
+                                    })
+
+                                // From here, this is about second request
+                                .done(function (sample) {
+                                    alert ('sample returned'); })
+                                .fail(function () {
+                                    alert('sample failed') });
+                            ```
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Filter data
+
+                            Easy way to tweak inconsistant apis.
+
+                            ``` javascript
+                            $.ajax( "/example" )
+                                .then(
+                                    function success(example) {
+                                        // filter data
+                                        return {response: example};
+                                    },
+                                    function error() { /*...*/ },
+                                    function progress() { /*...*/ }
+                                )
+
+                                // `data` has been altered by `then` callback
+                                .done(function (data) {
+                                    console.log(data.response);
+                                });
+                            ```
+
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # Tools
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Linters
+
+                            * [jshint](http://www.jshint.com/)
+                            * [jslint](http://www.jslint.com/)
+                            * [jsonlint](http://jsonlint.com/)
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Unit testing
+
+                            * [Introduction to unit testing](http://coding.smashingmagazine.com/2012/06/27/introduction-to-javascript-unit-testing/)
+                            * [Qunit](http://qunitjs.com/) jQuery unit test
+                            * [Mocha](http://visionmedia.github.io/mocha/)
+
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Functional testing
+
+                            * [CasperJS](http://casperjs.org)
+                            * [Zombie](http://zombie.labnotes.org/)
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Organize and build
+
+                            * [requirejs](http://requirejs.org/)
+                            * [browserify](http://browserify.org/)
+                            * [Grunt](http://gruntjs.com/) with a [sample
+                            bootstrap](https://gist.github.com/themouette/5209261);
+                            * [uglifyjs](http://lisperator.net/uglifyjs/)
+                            * [bower](http://twitter.github.io/bower/)
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Libraries
+
+                            * [Lo-Dash](http://lodash.com/) or [underscorejs](http://underscorejs.org/)
+                            * [BackboneJS](http://backbonejs.org/) and
+                            [Marionette](http://marionettejs.com/) ([learn
+                            Marionette](http://coding.smashingmagazine.com/2013/02/11/introduction-backbone-marionette/))
+                            * [Handlebars](http://handlebarsjs.com/):
+                            [learn](http://blog.teamtreehouse.com/getting-started-with-handlebars-js)
+                            [it](http://blog.teamtreehouse.com/handlebars-js-part-2-partials-and-helpers)
+
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            # Resources
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Starter guides
+
+                            * [Eloquent javascript](http://eloquentjavascript.net/)
+                            * [Daily JS - 101](http://dailyjs.com/js101.html)
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Videos
+
+                            * [Javascript the good parts](http://www.youtube.com/watch?v=hQVTIJBZook)
+                            * [learn chrome devtools](http://www.codeschool.com/courses/discover-devtools)
+                        </script>
+                    </section>
+                    <section data-markdown>
+                        <script type="text/template">
+                            ## Articles
+
+                            * [Javascript this](http://doctrina.org/Javascript-Function-Invocation-Patterns.html) and
+                            [another](http://tech.pro/tutorial/1192/avoiding-the-this-problem-in-javascript)
+                            * [Functions explained](http://markdaggett.com/blog/2013/02/15/functions-explained/)
+                            * [Coding standards](http://markdaggett.com/blog/2013/02/15/pragmatic-javascript-style/)
+                        </script>
+                    </section>
+                </section>
+
+                <section>
+                    <h1>Thank you !</h1>
+                </section>
+
+                <section>
+                    <h1>Questions ?</h1>
+                </section>
+            </div>
+
+        </div>
+
+        <script src="reveal.js/lib/js/head.min.js"></script>
+        <script src="reveal.js/js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Parallax scrolling
+                // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+                // parallaxBackgroundSize: '2100px 900px',
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+            function initRunnables() {
+                var runables = document.querySelectorAll('code.runable');
+                runables = Array.prototype.slice.call(runables);
+                console.log(runables);
+                runables.forEach(function (runable) {
+                    var pre = runable.parentElement;
+                    var btn = document.createElement('button');
+                    btn.innerHTML = 'Run';
+                    btn.className = 'runable-run';
+                    btn.addEventListener('click', function onRunnableClick(e) {
+                        eval(runable.innerHTML.replace(/<[^>]*>/g, ""));
+                    });
+                    pre.appendChild(btn);
+                });
+            }
+
+            initRunnables();
+
+        </script>
+
+    </body>
+</html>
