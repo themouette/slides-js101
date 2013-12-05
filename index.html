@@ -976,6 +976,7 @@ sayHello.apply(joe, ['Good morning', 'Garry']);</code></pre>
                     btn.className = 'runable-run';
                     btn.addEventListener('click', function onRunnableClick(e) {
                         eval(runable.innerHTML.replace(/<[^>]*>/g, ""));
+                        btn.blur();
                     });
                     pre.appendChild(btn);
                 });
