@@ -969,7 +969,6 @@ sayHello.apply(joe, ['Good morning', 'Garry']);</code></pre>
             function initRunnables() {
                 var runables = document.querySelectorAll('code.runable');
                 runables = Array.prototype.slice.call(runables);
-                console.log(runables);
                 runables.forEach(function (runable) {
                     var pre = runable.parentElement;
                     var btn = document.createElement('button');
