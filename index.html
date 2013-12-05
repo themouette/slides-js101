@@ -404,7 +404,7 @@ alert(a);</code></pre>
                     <section>
                         <h2>Example 1: public API</h2>
 
-                        <pre><code class="javascript">var x = 0;
+                        <pre><code class="javascript runable">var x = 0;
 function incr() {
     x++;
     console.log(x);
@@ -424,7 +424,7 @@ decr();         // log 1</code></pre>
 
                         <p>Create a callback from a variable:</p>
 
-                        <pre><code class="javascript">function createAdd(number) {
+                        <pre><code class="javascript runable">function createAdd(number) {
     function doAdd(value) {
         return value + number;
     }
@@ -433,14 +433,14 @@ decr();         // log 1</code></pre>
 }
 
 var add10 = createAdd(10);
-add10(1); // returns 11</code></pre>
+alert(add10(1)); // returns 11</code></pre>
                     </section>
                     <section>
                         <h2>Example 3</h2>
 
                         <p>Closure creates it's own context:</p>
 
-                        <pre><code class="javascript">var x = 5;
+                        <pre><code class="javascript runable">var x = 5;
 
 function foo() {
     var x = 12;
