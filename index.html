@@ -277,7 +277,7 @@ a = b + c(opts || {}).foo ? bar() : baz()</code></pre>
                     <section>
                         <h2>Contexts</h2>
 
-                        <pre><code class="javascript">var foo = "outside";
+                        <pre><code class="javascript runable">var foo = "outside";
 function test() {
     var foo = "inside";
     console.log('test foo is "%s"', foo);
@@ -301,7 +301,7 @@ outside foo is "outside"</code></pre>
 
                         <p>Any variable not declared with <code>var</code> is <strong>global</strong>.</p>
 
-                        <pre><code class="javascript">var foo = "outside";
+                        <pre><code class="javascript runable">var foo = "outside";
 function test() {
     foo = "inside";
     console.log('test foo is "%s"', foo);
