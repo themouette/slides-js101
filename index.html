@@ -630,6 +630,95 @@ sayHello.apply(joe, ['Good morning', 'Garry']);</code></pre>
                     </section>
                 </section>
 
+
+
+
+                <section>
+                    <section data-markdown>
+                        <script type="text/template">
+                                # Modules
+                            </script>
+                        </section>
+                        <section data-markdown class="promises">
+                            <script type="text/template">
+                                ## Simple modules
+
+                                Use <accronym title="Immediately-Invoked Function Expression">IIFE</accronym> to isolate context
+
+                                ``` javascript
+                                var myModule = (function (window, undefined) {
+                                    var privateVariable;
+
+                                    function foo () {
+                                    }
+                                    function bar () {
+                                    }
+
+                                    return {
+                                        foo: foo,
+                                        bar: bar
+                                    };
+                                })(window);
+                                ```
+
+                                More about <accronym title="Immediately-Invoked Function Expression">IIFE</accronym>
+                                on [Cowboy's blog](http://benalman.com/news/2010/11/immediately-invoked-function-expression/)
+                            </script>
+                        </section>
+                        <section data-markdown class="promises">
+                            <script type="text/template">
+                                ## AMD
+
+                                Asynchronous Module Definition relies on `define`.
+
+                                ``` javascript
+                                define([
+                                    'jquery',
+                                    'app/model/user'
+                                ], function ($, User) {
+                                    var user = new User();
+
+                                    /* ... */
+
+                                    return something;
+                                });
+                                ```
+
+                                > [curljs](http://davidwalsh.name/curljs) and [requirejs](http://requirejs.org/)
+                                > are amd loader.
+                                >
+                                > [amdclean](https://github.com/gfranko/amdclean) removes extra `define`
+                            </script>
+                        </section>
+                        <section data-markdown class="promises">
+                            <script type="text/template">
+                                ## CommonJS
+
+                                #### aka `exports` and `require`
+
+                                [browserify](http://browserify.org/) allow to use [nodejs](http://nodejs.org/)
+                                dependency model.
+
+                                ``` javascript
+                                modules.exports = (function () {
+
+                                    var User = require(__dirname + '/model/user');
+
+                                    var u = new User();
+
+                                    /* ... */
+
+                                    return something;
+                                })();
+                                ```
+
+                        </script>
+                    </section>
+                </section>
+
+
+
+
                 <section>
                     <section data-markdown>
                         <script type="text/template">
